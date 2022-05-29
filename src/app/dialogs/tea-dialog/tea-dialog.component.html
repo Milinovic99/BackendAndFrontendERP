@@ -1,0 +1,71 @@
+<div class="container">
+  <h3 mat-dialog-title *ngIf="flag == 1">Dodavanje proizvoda</h3>
+  <h3 mat-dialog-title *ngIf="flag == 2">Modifikacija proizvoda: {{data.product_id}}</h3>
+  <h3 mat-dialog-title *ngIf="flag == 3">Brisanje proizvoda: {{data.product_id}}</h3>
+  <form class="mat-dialog-content" #formControl="ngForm">
+
+    <div class="form" *ngIf="flag == 3 || flag == 2">
+      <mat-form-field>
+        <input matInput placeholder="Id proizvoda" [(ngModel)]="data.product_id"
+        name="product_id" [disabled]="flag == 3 || flag == 2" required>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="Naziv proizvoda" [(ngModel)]="data.product_name"
+        name="product_name" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Link slike" [(ngModel)]="data.image_url"
+       name="image_url" [disabled]="flag == 3" required>
+       </mat-form-field>
+     </div>
+    <div class="form">
+     <mat-form-field>
+      <input matInput placeholder="Litraza" [(ngModel)]="data.liter"
+      name="liter" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Cijena" [(ngModel)]="data.price"
+       name="price" [disabled]="flag == 3" required>
+       </mat-form-field>
+     </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Na akciji" [(ngModel)]="data.on_action"
+       name="on_action" [disabled]="flag == 3" required>
+       </mat-form-field>
+     </div>
+
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Popust" [(ngModel)]="data.discout"
+       name="discout" [disabled]="flag == 3" required>
+       </mat-form-field>
+     </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Cijena sa popustom" [(ngModel)]="data.discount_price"
+       name="discount_price" [disabled]="flag == 3" required>
+       </mat-form-field>
+     </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Id kategorije" [(ngModel)]="data.category_id"
+       name="category_id " [disabled]="flag == 3 || flag == 2" required>
+       </mat-form-field>
+     </div>
+    <div mat-dialog-actions>
+      <button mat-button *ngIf="flag == 1" type="submit" [mat-dialog-close]="1" (click)="add()" [disabled]="!formControl.valid">Sačuvaj</button>
+      <button mat-button *ngIf="flag == 2" type="submit" [mat-dialog-close]="1" (click)="update()">Sačuvaj</button>
+      <button mat-button *ngIf="flag == 3" type="submit" [mat-dialog-close]="1" (click)="delete()">Obriši</button>
+      <button mat-button (click)="cancel()">Poništi</button>
+    </div>
+  </form>
+</div>
+

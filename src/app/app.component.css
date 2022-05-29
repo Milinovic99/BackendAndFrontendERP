@@ -1,0 +1,124 @@
+#nav1 {
+  background-color: aquamarine;
+  height:50px;
+  overflow:auto;
+}
+#nav1 ul  {
+  font-size: 20px;
+ color:black;
+  list-style: none;
+  text-decoration: none;
+}
+
+#nav1 ul li {
+  width:100px;
+  height:50px;
+  float:left;
+  text-align: center;
+  padding-top: 15px;
+}
+
+
+#nav1 ul li:hover {
+  background-color: blue;
+}
+
+#nav1 ul li a {
+  text-decoration: none;
+}
+
+
+#nav2 {
+  height:50px;
+  background-color: aqua;
+}
+
+#nav2 ul {
+  font-size: 20px;
+  color:black;
+  list-style: none;
+  text-decoration: none;
+  float:right;
+}
+#nav2 ul li {
+  float:left;
+  width:200px;
+  height:50px;
+  text-align: center;
+  padding-top: 15px;
+}
+
+#nav2 ul li:hover {
+  background-color: blue;
+}
+#nav2 ul li a {
+  text-decoration: none;
+}
+
+
+ #row1 .col #callIcon {
+  height: 50px;
+  margin-left: 100px;
+  margin-top: 20px;
+}
+#row1 .col #InputSearch {
+  margin-top:40px;
+}
+
+#row1 .col #IconSearch {
+  margin-right:10px;
+  margin-top:-30px;
+  float:right;
+}
+
+
+
+
+#row1 .col p {
+  font-style: italic;
+  font-size: larger;
+  margin-top:0px;
+  margin-left: 40px;
+}
+
+#row1 .col #matFab {
+ float:right;
+}
+
+
+#footer {
+  overflow: hidden;
+  height:300px;
+  background-color: lightblue;
+}
+
+
+#footer .col input {
+  float:right;
+}
+#footer  .col button {
+  float:right;
+}
+#footer  .col p {
+  float:right;
+}
+
+#rowContent {
+  height:auto;
+  width:100%;
+}
+
+#rowContent .col img:hover {
+  border: 1px;
+  border-color: black;
+  opacity: 0.5;
+}
+
+
+
+#pagination {
+margin-left: 50%;
+}
+
+
+
