@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BackendERP.Data;
 using BackendERP.Tables;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -37,16 +38,7 @@ namespace BackendERP.Controllers
         [Consumes("application/json")]
         public ActionResult<List<Product>> GetProducts(string product)
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator")
-            //   return Unauthorized();
-            // }
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            // {
-            //    return Unauthorized();
-            //}
+           
 
             var proizvodi = productRepository.GetProducts(product);
             if (proizvodi == null || proizvodi.Count == 0)
@@ -65,17 +57,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public ActionResult<Product> GetProduct(int proizvod_id)
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator" )
-            //{ 
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
-            //}
+           
             var proizvod = productRepository.GetProductById(proizvod_id);
             if (proizvod == null)
             {
@@ -90,19 +72,9 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<Product> CreateProduct([FromQuery] Product proizvod)
+        public ActionResult<Product> CreateProduct(Product proizvod)
         {
-            //  string token = Request.Headers["token"].ToString();
-            // string[] split = token.Split('#');
-            //if (split[1] != "administrator" )
-            //{ 
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
-            //}
+            
             try
             {
                 var pro = productRepository.CreateProduct(proizvod);
@@ -125,17 +97,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public IActionResult DeleteProduct(int product_id)
         {
-            //    string token = Request.Headers["token"].ToString();
-            //   string[] split = token.Split('#');
-            //  if (split[1] != "administrator")
-            // { 
-            //    return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            // {
-            //    return Unauthorized();
-            //}
+            
 
             try
             {
@@ -164,18 +126,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public ActionResult<Product> UpdateProduct(Product proizvod)
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator" || split[1] != "menadzer" || split[1] != "licitant"
-            //    || split[1] != "tehnicki sektetar" || split[1] != "prva komisija" || split[1] != "operator nadmetanja")
-            //{
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
-            //}
+            
             try
             {
                 var complaintCheck = productRepository.GetProductById(proizvod.Product_id);

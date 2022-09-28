@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,12 @@ namespace BackendERP.Tables
 
         }
 
-        public DbSet<Newsletter> Newsletters { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Product_category> Product_categories { get; set; }
-        public DbSet<User_service> User_services { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Delivery_data> Delivery_data { get; set; }
+        public DbSet<Delivery> Delivery { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Role> Roles { get; set; }
 
 
@@ -34,7 +33,8 @@ namespace BackendERP.Tables
                 Email = "milosmilinovic9@gmail.com",
                 User_name = "Mili99",
                 Password = "milos123",
-                Role_id = 1
+                Role_id = 1,
+                Purchase_count=0
             }
                 );
             modelBuilder.Entity<User>().HasData(new
@@ -45,22 +45,11 @@ namespace BackendERP.Tables
                 Email = "nmilunovic@gmail.com",
                 User_name = "Milun",
                 Password = "milun123",
-                Role_id = 2
+                Role_id = 2,
+                Purchase_count=0
             }
                 );
 
-            modelBuilder.Entity<Newsletter>().HasData(new
-            {
-                Newsletter_id = 1,
-                Email="milosmilinovic9@gmail.com"
-            }
-                );
-            modelBuilder.Entity<Newsletter>().HasData(new
-            {
-                Newsletter_id = 2,
-                Email="nemanjamilunovic@.com"
-            }
-              );
             modelBuilder.Entity<Product_category>().HasData(new
             {
                 Category_id = 1,
@@ -73,20 +62,7 @@ namespace BackendERP.Tables
                 Category_name = "Pivo"
             }
                );
-            modelBuilder.Entity<User_service>().HasData(new
-            {
-                Service_id = 1,
-                Email = "milosmilinovic9@gmail.com",
-                Message = "Stvarno je dobar sajt!"
-            }
-                );
-            modelBuilder.Entity<User_service>().HasData(new
-            {
-                Service_id = 2,
-                Email = "nmilunovic@gmail.com",
-                Message = "Dsdscac csac cac s!"
-            }
-                );
+           
             modelBuilder.Entity<Role>().HasData(new
             {
                 Role_id = 1,
@@ -98,22 +74,22 @@ namespace BackendERP.Tables
                 Role_name = "Kupac"
             }
                 );
-            modelBuilder.Entity<Delivery_data>().HasData(new
+            modelBuilder.Entity<Delivery>().HasData(new
             {
                 Delivery_id = 1,
                 Address = "Stefana Stefanovica 5",
                 City = "Novi Sad",
                 Phone_number = "+381 62 839 1 075",
-                User_id = 1
+                Order_id = 1
             }
                 );
-            modelBuilder.Entity<Delivery_data>().HasData(new
+            modelBuilder.Entity<Delivery>().HasData(new
             {
                 Delivery_id = 2,
                 Address = "Valentina Vodnika 17",
                 City = "Novi Sad",
                 Phone_number = "0654005831",
-                User_id = 2
+                Order_id = 2
             }
                );
             modelBuilder.Entity<Product>().HasData(new
@@ -122,6 +98,7 @@ namespace BackendERP.Tables
                 Product_name = "Akva viva",
                 Liter = 0.25,
                 Price = 175.00,
+                Product_quantity=50,
                 On_action = true,
                 Discount = "20%",
                 Discout_price = "114,15",
@@ -135,29 +112,51 @@ namespace BackendERP.Tables
                 Product_name = "Jelen",
                 Liter = 0.25,
                 Price = 200.00,
+                Product_quantity=100,
                 On_action = false,
                 Image_url="assets/images/Jelen.jfif",
                 Category_id = 2
             }
                 );
-            modelBuilder.Entity<Payment>().HasData(new
+            modelBuilder.Entity<Order>().HasData(new
             {
-                Payment_id = 1,
+                Order_id = 1,
                 Total = 445.00,
-                Payment_date = DateTime.Parse("2022-11-4"),
+                Order_date = DateTime.Parse("2022-11-4"),
                 User_id = 1
             }
                 );
-            modelBuilder.Entity<Payment>().HasData(new
+            modelBuilder.Entity<Order>().HasData(new
             {
-                Payment_id = 2,
+                Order_id = 2,
                 Total = 460.00,
-                Payment_date = DateTime.Parse("2021-12-4"),
+                Order_date = DateTime.Parse("2021-12-4"),
                 User_id = 2
             }
                );
+        modelBuilder.Entity<Rating>().HasData(new
+           {
+          Rating_id = 1,
+          Grade = 9,
+          Comment = "odlican proizvod!",
+          Product_id = 2,
+          User_id = 1
+              }
+             );
+      modelBuilder.Entity<OrderProduct>()
+            .HasKey(t => new { t.Order_id, t.Product_id });
 
-        }
+      modelBuilder.Entity<OrderProduct>()
+          .HasOne(pt => pt.Order)
+          .WithMany(p => p.Order_products)
+          .HasForeignKey(pt => pt.Order_id);
+
+      modelBuilder.Entity<OrderProduct>()
+          .HasOne(pt => pt.Product)
+          .WithMany(t => t.Order_products)
+          .HasForeignKey(pt => pt.Product_id);
+
+    }
 
     }
 }

@@ -19,7 +19,7 @@ namespace BackendERP.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BackendERP.Tables.Delivery_data", b =>
+            modelBuilder.Entity("BackendERP.Tables.Delivery", b =>
                 {
                     b.Property<int>("Delivery_id")
                         .ValueGeneratedOnAdd()
@@ -36,18 +36,19 @@ namespace BackendERP.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<int>("Order_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Phone_number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Delivery_id");
 
-                    b.HasIndex("User_id");
+                    b.HasIndex("Order_id")
+                        .IsUnique();
 
-                    b.ToTable("Delivery_data");
+                    b.ToTable("Delivery");
 
                     b.HasData(
                         new
@@ -55,55 +56,27 @@ namespace BackendERP.Migrations
                             Delivery_id = 1,
                             Address = "Stefana Stefanovica 5",
                             City = "Novi Sad",
-                            Phone_number = "+381 62 839 1 075",
-                            User_id = 1
+                            Order_id = 1,
+                            Phone_number = "+381 62 839 1 075"
                         },
                         new
                         {
                             Delivery_id = 2,
                             Address = "Valentina Vodnika 17",
                             City = "Novi Sad",
-                            Phone_number = "0654005831",
-                            User_id = 2
+                            Order_id = 2,
+                            Phone_number = "0654005831"
                         });
                 });
 
-            modelBuilder.Entity("BackendERP.Tables.Newsletter", b =>
+            modelBuilder.Entity("BackendERP.Tables.Order", b =>
                 {
-                    b.Property<int>("Newsletter_id")
+                    b.Property<int>("Order_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Newsletter_id");
-
-                    b.ToTable("Newsletters");
-
-                    b.HasData(
-                        new
-                        {
-                            Newsletter_id = 1,
-                            Email = "milosmilinovic9@gmail.com"
-                        },
-                        new
-                        {
-                            Newsletter_id = 2,
-                            Email = "nemanjamilunovic@.com"
-                        });
-                });
-
-            modelBuilder.Entity("BackendERP.Tables.Payment", b =>
-                {
-                    b.Property<int>("Payment_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Payment_date")
+                    b.Property<DateTime>("Order_date")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("Total")
@@ -112,27 +85,45 @@ namespace BackendERP.Migrations
                     b.Property<int>("User_id")
                         .HasColumnType("int");
 
-                    b.HasKey("Payment_id");
+                    b.HasKey("Order_id");
 
                     b.HasIndex("User_id");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Orders");
 
                     b.HasData(
                         new
                         {
-                            Payment_id = 1,
-                            Payment_date = new DateTime(2022, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Order_id = 1,
+                            Order_date = new DateTime(2022, 11, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Total = 445.0,
                             User_id = 1
                         },
                         new
                         {
-                            Payment_id = 2,
-                            Payment_date = new DateTime(2021, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Order_id = 2,
+                            Order_date = new DateTime(2021, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Total = 460.0,
                             User_id = 2
                         });
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.OrderProduct", b =>
+                {
+                    b.Property<int>("Order_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Product_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BoughtProducts_amount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Order_id", "Product_id");
+
+                    b.HasIndex("Product_id");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("BackendERP.Tables.Product", b =>
@@ -167,6 +158,9 @@ namespace BackendERP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Product_quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Product_id");
 
                     b.HasIndex("Category_id");
@@ -182,7 +176,8 @@ namespace BackendERP.Migrations
                             Liter = 0.25,
                             On_action = true,
                             Price = 175.0,
-                            Product_name = "Akva viva"
+                            Product_name = "Akva viva",
+                            Product_quantity = 50
                         },
                         new
                         {
@@ -192,7 +187,8 @@ namespace BackendERP.Migrations
                             Liter = 0.25,
                             On_action = false,
                             Price = 200.0,
-                            Product_name = "Jelen"
+                            Product_name = "Jelen",
+                            Product_quantity = 100
                         });
                 });
 
@@ -221,6 +217,44 @@ namespace BackendERP.Migrations
                         {
                             Category_id = 2,
                             Category_name = "Pivo"
+                        });
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.Rating", b =>
+                {
+                    b.Property<int>("Rating_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Product_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Rating_id");
+
+                    b.HasIndex("Product_id");
+
+                    b.HasIndex("User_id");
+
+                    b.ToTable("Ratings");
+
+                    b.HasData(
+                        new
+                        {
+                            Rating_id = 1,
+                            Comment = "odlican proizvod!",
+                            Grade = 9,
+                            Product_id = 2,
+                            User_id = 1
                         });
                 });
 
@@ -278,6 +312,9 @@ namespace BackendERP.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int>("Purchase_count")
+                        .HasColumnType("int");
+
                     b.Property<int>("Role_id")
                         .HasColumnType("int");
 
@@ -300,6 +337,7 @@ namespace BackendERP.Migrations
                             LastName = "Milinovic",
                             Name = "Milos",
                             Password = "milos123",
+                            Purchase_count = 0,
                             Role_id = 1,
                             User_name = "Mili99"
                         },
@@ -310,46 +348,24 @@ namespace BackendERP.Migrations
                             LastName = "Milunovic",
                             Name = "Nemanja",
                             Password = "milun123",
+                            Purchase_count = 0,
                             Role_id = 2,
                             User_name = "Milun"
                         });
                 });
 
-            modelBuilder.Entity("BackendERP.Tables.User_service", b =>
+            modelBuilder.Entity("BackendERP.Tables.Delivery", b =>
                 {
-                    b.Property<int>("Service_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasOne("BackendERP.Tables.Order", "Order")
+                        .WithOne("Delivery")
+                        .HasForeignKey("BackendERP.Tables.Delivery", "Order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Service_id");
-
-                    b.ToTable("User_services");
-
-                    b.HasData(
-                        new
-                        {
-                            Service_id = 1,
-                            Email = "milosmilinovic9@gmail.com",
-                            Message = "Stvarno je dobar sajt!"
-                        },
-                        new
-                        {
-                            Service_id = 2,
-                            Email = "nmilunovic@gmail.com",
-                            Message = "Dsdscac csac cac s!"
-                        });
+                    b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BackendERP.Tables.Delivery_data", b =>
+            modelBuilder.Entity("BackendERP.Tables.Order", b =>
                 {
                     b.HasOne("BackendERP.Tables.User", "User")
                         .WithMany()
@@ -360,21 +376,29 @@ namespace BackendERP.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BackendERP.Tables.Payment", b =>
+            modelBuilder.Entity("BackendERP.Tables.OrderProduct", b =>
                 {
-                    b.HasOne("BackendERP.Tables.User", "User")
-                        .WithMany()
-                        .HasForeignKey("User_id")
+                    b.HasOne("BackendERP.Tables.Order", "Order")
+                        .WithMany("Order_products")
+                        .HasForeignKey("Order_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("BackendERP.Tables.Product", "Product")
+                        .WithMany("Order_products")
+                        .HasForeignKey("Product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BackendERP.Tables.Product", b =>
                 {
                     b.HasOne("BackendERP.Tables.Product_category", "Product_category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("Category_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -382,15 +406,63 @@ namespace BackendERP.Migrations
                     b.Navigation("Product_category");
                 });
 
+            modelBuilder.Entity("BackendERP.Tables.Rating", b =>
+                {
+                    b.HasOne("BackendERP.Tables.Product", "Product")
+                        .WithMany("Ratings")
+                        .HasForeignKey("Product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendERP.Tables.User", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("User_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BackendERP.Tables.User", b =>
                 {
                     b.HasOne("BackendERP.Tables.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("Role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.Order", b =>
+                {
+                    b.Navigation("Delivery");
+
+                    b.Navigation("Order_products");
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.Product", b =>
+                {
+                    b.Navigation("Order_products");
+
+                    b.Navigation("Ratings");
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.Product_category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("BackendERP.Tables.User", b =>
+                {
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

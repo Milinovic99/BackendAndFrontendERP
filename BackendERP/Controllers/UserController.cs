@@ -36,16 +36,7 @@ namespace BackendERP.Controllers
         [Consumes("application/json")]
         public ActionResult<List<User>> GetUsers(string name=null,string lastName= null,string userName=null )
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator")
-            //   return Unauthorized();
-            // }
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            // {
-            //    return Unauthorized();
-            //}
+           
 
             var users = userRepository.GetUsers(name,lastName,userName);
             if (users == null || users.Count == 0)
@@ -63,17 +54,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public ActionResult<User> GetUser(int user_id)
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator" )
-            //{ 
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
-            //}
+            
             var user = userRepository.GetUserById(user_id);
             if (user == null)
             {
@@ -90,17 +71,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public ActionResult<User> CreateUser(User user)
         {
-            //  string token = Request.Headers["token"].ToString();
-            // string[] split = token.Split('#');
-            //if (split[1] != "administrator" )
-            //{ 
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
-            //}
+          
             try
             {
                 var pro = userRepository.CreateUser(user);
@@ -123,17 +94,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public IActionResult DeleteUser(int user_id)
         {
-            //    string token = Request.Headers["token"].ToString();
-            //   string[] split = token.Split('#');
-            //  if (split[1] != "administrator")
-            // { 
-            //    return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            // {
-            //    return Unauthorized();
-            //}
+            
 
             try
             {
@@ -162,17 +123,7 @@ namespace BackendERP.Controllers
         [ProducesDefaultResponseType]
         public ActionResult<User> UpdateUser(User user)
         {
-            //   string token = Request.Headers["token"].ToString();
-            //  string[] split = token.Split('#');
-            // if (split[1] != "administrator" || split[1] != "menadzer" || split[1] != "licitant"
-            //    || split[1] != "tehnicki sektetar" || split[1] != "prva komisija" || split[1] != "operator nadmetanja")
-            //{
-            //   return Unauthorized();
-            //}
-            //HttpStatusCode res = fileService.AuthorizeAsync(token).Result;
-            //if (res.ToString() != "OK")
-            //{
-            //   return Unauthorized();
+        
             //}
             try
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,11 +31,12 @@ namespace BackendERP.Tables
         public string Password { get; set; }
         [ForeignKey("Role")]
         public int Role_id { get; set; }
-   //   public Role Role { get; set; }
 
-    // public List<Payment> Payments;
+        public int Purchase_count { get; set; }
+         public Role Role { get; set; }
 
-      //public List<Delivery_data> Delivery_data_;
+        public List<Order> Orders;
+        public List<Rating> Ratings { get; set; }
 
         
     }
