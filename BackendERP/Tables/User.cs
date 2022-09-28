@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,9 +36,7 @@ namespace BackendERP.Tables
          public Role Role { get; set; }
 
         public List<Order> Orders;
-
-        public List<Product_User> Bought_products { get; set; }
-        public Rating Rating { get; set; }
+        public List<Rating> Ratings { get; set; }
 
         
     }

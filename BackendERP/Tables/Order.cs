@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,8 +17,7 @@ namespace BackendERP.Tables
         [ForeignKey("User")]
         public int User_id { get; set; }
         public User User { get; set; }
-
-        public List<Product> Products { get; set; }
+        public List<OrderProduct> Order_products { get; set; }
 
         public Delivery Delivery { get; set; }
     }

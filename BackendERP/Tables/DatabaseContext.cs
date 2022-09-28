@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,6 @@ namespace BackendERP.Tables
 
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Product_category> Product_categories { get; set; }
-        public DbSet<Product_User> Product_users { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Delivery> Delivery { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -135,8 +134,29 @@ namespace BackendERP.Tables
                 User_id = 2
             }
                );
+        modelBuilder.Entity<Rating>().HasData(new
+           {
+          Rating_id = 1,
+          Grade = 9,
+          Comment = "odlican proizvod!",
+          Product_id = 2,
+          User_id = 1
+              }
+             );
+      modelBuilder.Entity<OrderProduct>()
+            .HasKey(t => new { t.Order_id, t.Product_id });
 
-        }
+      modelBuilder.Entity<OrderProduct>()
+          .HasOne(pt => pt.Order)
+          .WithMany(p => p.Order_products)
+          .HasForeignKey(pt => pt.Order_id);
+
+      modelBuilder.Entity<OrderProduct>()
+          .HasOne(pt => pt.Product)
+          .WithMany(t => t.Order_products)
+          .HasForeignKey(pt => pt.Product_id);
+
+    }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,11 +22,9 @@ namespace BackendERP.Tables
         public string Image_url { get; set; }
         [ForeignKey("Product_category")]
         public int Category_id { get; set; }
-      public Product_category Product_category { get; set; }
-
-       public List<Product_User> Product_Users { get; set; }
-        public Rating Rating { get; set; }
-        public List<Order> Orders { get; set; }
+        public Product_category Product_category { get; set; }
+        public List<Rating> Ratings { get; set; }
+        public List<OrderProduct> Order_products { get; set; }
         
     }
 }
