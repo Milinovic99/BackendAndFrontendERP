@@ -1,0 +1,122 @@
+<nav id="nav1">
+  <ul>
+  <li><a [routerLink]="['/home']">Pocetna</a></li>
+  <li ><a [routerLink]="['/delivery']">Dostava</a></li>
+  <li ><a *ngIf="!userService.loggedIn()" [routerLink]="['/login']">Prijava</a></li>
+  <li [matMenuTriggerFor]="menu" *ngIf="userService.loggedIn()"
+  style="float:right;"><a  class="fa fa-user" style="cursor:pointer;"> Profil</a></li>
+  <li style="float:right; cursor:pointer;" *ngIf="userService.loggedIn()
+   && userService.userInformation.role_id == 1 " [routerLink]="['/notifications']"><a
+    style="float:inline-end; display:flex;" >
+    <mat-icon>payment</mat-icon>
+    <p style="font-weight:500">Uplate</p>
+ </a>
+</li>
+    <mat-menu #menu="matMenu">
+      <li mat-menu-item [routerLink]="['/user-profile']">Profil</li>
+      <button mat-menu-item routerLink="/login" (click)="userService.logoutUser()">Odjava</button>
+    </mat-menu>
+</ul>
+</nav>
+  <div class="row" id="row1">
+  <div class="col">
+   <img src="assets/images/DrinkStore.png">
+  </div>
+  <div class="col">
+    <mat-icon id="callIcon">call</mat-icon>
+    <p>062 839 1 075</p>
+  </div>
+  <div class="col">
+    <input type="email" id="InputSearch" [(ngModel)]="data" name="data" class="form-control form-control" placeholder="Pretraga...">
+  </div>
+  <div class="col">
+    <button mat-button [matMenuTriggerFor]="menu12" *ngIf="userService.loggedIn()" style="background-color: brown; height:50px; width:auto;
+    margin-top:30px; margin-left:60px; color:white; font-size: 20px; display:flex;">
+  <i class="fa fa-shopping-cart"> Vasa korpa </i>
+  <span class="badge" style="margin-top:5px;">{{totalNumber}}</span>
+</button>
+  <mat-menu  #menu12="matMenu" style="display:flex;">
+    <button mat-button style="margin-right:20px; margin-left: 5px; background-color: brown; color:white">Pregled</button>
+    <button mat-button style="margin-top:50%; margin-right: 5px;  background-color: brown; color:white " [routerLink]="['/delivery-data']">Placanje</button>
+  </mat-menu>
+  </div>
+  </div>
+
+  <nav id="nav2">
+    <ul>
+    <li><a [routerLink]="['/actions']">Akcije</a></li>
+    <li><a [routerLink]="['/contact']">Kontakt</a></li>
+    <li><a [routerLink]="['/products']">Proizvodi</a></li>
+  </ul>
+  </nav>
+  <div class="row" id="rowContent">
+    <div class="col">
+
+    </div>
+    <div class="col-6">
+    <table class="table" >
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Naziv proizvoda</th>
+          <th>Kolicina</th>
+          <th>Cijena</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let item of product; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{item.product_name}}</td>
+          <td>{{amount[i]}}</td>
+          <td>{{priceTimesQuantity[i]}} rsd</td>
+          <td>
+            <button class="btn btn-danger" (click)="removeItem(item)"
+             style="margin-top:-2px;"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><button class="btn btn-danger" style="height:35px;" (click)="removeAllItems()">Izbrisi sve</button></td>
+          <td><strong>Ukupno:{{ grandTotal }} rsd </strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-2">
+
+  </div>
+  </div>
+<div class="row" id="footer">
+  <div class="col">
+    <p style="float:left; margin-left:100px; margin-top:100px; font-size: larger;">Valentina Vodnika 17</p>
+    <br>
+    <p style="float:left; margin-left:100px; font-size: larger;">21000 Novi Sad</p>
+    <br>
+    <p style="float:left; margin-left:100px; font-size: larger;">Tel:+381 062 839 1 075</p>
+    <button mat-button style="background-color:brown; margin-top:0px; margin-right:150px; ">
+ <mat-icon>facebook</mat-icon>
+  <b>facebook</b>
+    </button>
+    <button mat-button style="background-color:brown; float:right; margin-top:-40px; height:40px;">
+      <p class="fab fa-instagram" style="content:f16d; margin-top:10px;">Instagram</p>
+    </button>
+  </div>
+  <div class="col">
+    <p style="font-size:20px; margin-right:120px; margin-top:100px;">Mapa sajta!</p>
+    <p style="font-size:large; margin-right:150px; margin-top:0px;"><a href="#">Pocetna</a></p>
+    <p style="font-size:large; margin-right:154px; margin-top:0px;"><a href="#">Kontakt</a></p>
+    <p style="font-size:large; margin-right:70px; margin-top:0px;"><a href="#">Online porucivanje</a></p>
+  </div>
+  <div class="col">
+    <input type="email" class="form-control form-control" placeholder="Email..." style="margin-top:120px;">
+<p style="font-size:larger; margin-top:-130px; margin-right:120px;">Newsletter</p>
+
+<mat-icon style="margin-top:-30px; float:right; margin-right:10px;"><a href="#">send</a></mat-icon>
+<p style="margin-top:-100px; font-style: italic; ">Ostavite vašu email adresu kako bismo
+ mogli da vas obaveštavamo o novim akcijama i popustima!</p>
+  </div>
+  <div class="col">
+
+  </div>
+</div>

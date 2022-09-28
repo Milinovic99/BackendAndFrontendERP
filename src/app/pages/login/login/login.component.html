@@ -1,0 +1,91 @@
+<nav id="nav1">
+  <ul>
+  <li><a [routerLink]="['/home']" routerLinkActive="active">Pocetna</a></li>
+  <li ><a [routerLink]="['/delivery']">Dostava</a></li>
+  <li ><a *ngIf="!userService.loggedIn()" [routerLink]="['/login']">Prijava</a></li>
+  <li [matMenuTriggerFor]="menu" style="float:right;"><a  *ngIf="userService.loggedIn()" class="fa fa-user" style="cursor:pointer;"> Profil</a></li>
+  <mat-menu #menu="matMenu">
+    <li mat-menu-item [routerLink]="['/user-profile']">Profil</li>
+    <button mat-menu-item routerLink="/login" (click)="userService.logoutUser()">Odjava</button>
+  </mat-menu>
+</ul>
+</nav>
+  <div class="row" id="row1">
+  <div class="col">
+   <img src="assets/images/DrinkStore.png">
+  </div>
+  <div class="col">
+    <mat-icon id="callIcon">call</mat-icon>
+    <p>062 839 1 075</p>
+  </div>
+  <div class="col">
+  </div>
+  <div class="col">
+
+  </div>
+  </div>
+
+  <nav id="nav2">
+    <ul>
+    <li><a [routerLink]="['/actions']">Akcije</a></li>
+    <li><a [routerLink]="['/contact']" routerLinkActive="active">Kontakt</a></li>
+    <li><a [routerLink]="['/products']">Proizvodi</a></li>
+  </ul>
+  </nav>
+  <div class="row" id="rowContent">
+   <div class="col-4">
+
+  </div>
+    <div class="col" style="margin-bottom:10px;">
+      <form #form="ngForm" >
+
+          <div class="form-group">
+            <label style="font-size:30px; margin-top:5px; font-style: italic;">Prijava</label>
+          </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email adresa</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" [(ngModel)]="data.Email" name="Email" style="width:500px;" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Lozinka</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="data.Password" name="Password" style="width:500px;" placeholder="Lozinka..">
+          <p>Nemate kreiran nalog? <a [routerLink]="['/registration']">Registrujte se.</a></p>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100px;" (click)="checkEmailAndPass(); form.resetForm();">Prijavi se</button>
+
+      </form>
+    </div>
+
+  </div>
+    <div class="row" id="footer">
+      <div class="col">
+        <p style="float:left; margin-left:100px; margin-top:100px; font-size: larger;">Valentina Vodnika 17</p>
+        <br>
+        <p style="float:left; margin-left:100px; font-size: larger;">21000 Novi Sad</p>
+        <br>
+        <p style="float:left; margin-left:100px; font-size: larger;">Tel:+381 062 839 1 075</p>
+        <button mat-button style="background-color:brown; margin-top:0px; margin-right:150px; ">
+     <mat-icon>facebook</mat-icon>
+      <b>facebook</b>
+        </button>
+        <button mat-button style="background-color:brown; float:right; margin-top:-40px; height:40px;">
+          <p class="fab fa-instagram" style="content:f16d; margin-top:10px;">Instagram</p>
+        </button>
+      </div>
+      <div class="col">
+        <p style="font-size:20px; margin-right:120px; margin-top:100px;">Mapa sajta!</p>
+        <p style="font-size:large; margin-right:150px; margin-top:0px;"><a routerLink="/home">Pocetna</a></p>
+        <p style="font-size:large; margin-right:154px; margin-top:0px;"><a routerLink="/contact">Kontakt</a></p>
+        <p style="font-size:large; margin-right:70px; margin-top:0px;"><a routerLink="/products">Online porucivanje</a></p>
+      </div>
+      <div class="col">
+        <input type="email" class="form-control form-control" placeholder="Email..." style="margin-top:120px;">
+<p style="font-size:larger; margin-top:-130px; margin-right:120px;">Newsletter</p>
+
+  <mat-icon style="margin-top:-30px; float:right; margin-right:10px;"><a href="#">send</a></mat-icon>
+  <p style="margin-top:-100px; font-style: italic; ">Ostavite vašu email adresu kako bismo
+     mogli da vas obaveštavamo o novim akcijama i popustima!</p>
+      </div>
+      <div class="col">
+      </div>
+</div>

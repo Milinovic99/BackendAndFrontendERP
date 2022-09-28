@@ -1,0 +1,170 @@
+<nav id="nav1">
+  <ul>
+  <li><a [routerLink]="['/home']">Pocetna</a></li>
+  <li ><a [routerLink]="['/delivery']">Dostava</a></li>
+  <li ><a *ngIf="!userService.loggedIn()" [routerLink]="['/login']">Prijava</a></li>
+  <li [matMenuTriggerFor]="menu" style="float:right;" *ngIf="userService.loggedIn()"
+   ><a class="fa fa-user" style="cursor:pointer;"> Profil</a></li>
+  <li style="float:right; cursor:pointer;" *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1 " [routerLink]="['/notifications']"><a
+    style="float:inline-end; display:flex;" >
+    <mat-icon>payment</mat-icon>
+    <p style="font-weight:500">Uplate</p>
+ </a>
+</li>
+    <mat-menu #menu="matMenu">
+      <li mat-menu-item [routerLink]="['/user-profile']">Profil</li>
+      <button mat-menu-item routerLink="/login" (click)="userService.logoutUser()">Odjava</button>
+    </mat-menu>
+</ul>
+</nav>
+  <div class="row" id="row1">
+  <div class="col">
+   <img src="assets/images/DrinkStore.png">
+  </div>
+  <div class="col">
+    <mat-icon id="callIcon">call</mat-icon>
+    <p>062 839 1 075</p>
+  </div>
+  <div class="col">
+    <input type="email" id="InputSearch" [(ngModel)]="data" name="data"
+    class="form-control form-control" placeholder="Pretraga...">
+  </div>
+  <div class="col">
+    <button mat-button [matMenuTriggerFor]="menu12" *ngIf="userService.loggedIn()" style="background-color: brown; height:50px; width:auto;
+    margin-top:30px; margin-left:60px; color:white; font-size: 20px;">
+  <i class="fa fa-shopping-cart" style="padding-bottom: 10px;"> Vasa korpa </i>
+  <span class="badge" style=" margin-top:-5px;">{{totalItemInCart}}</span>
+</button>
+  <mat-menu  #menu12="matMenu" style="display:flex;">
+    <button mat-button style="margin-right:20px; margin-left: 5px; background-color: brown; color:white" [routerLink]="['/cart']">Pregled</button>
+    <button mat-button style="margin-top:50%; margin-right: 5px;  background-color: brown; color:white " [routerLink]="['/delivery-data']">Placanje</button>
+  </mat-menu>
+  </div>
+  </div>
+
+  <nav id="nav2">
+    <ul>
+    <li><a [routerLink]="['/actions']">Akcije</a></li>
+    <li><a [routerLink]="['/contact']">Kontakt</a></li>
+    <li><a [routerLink]="['/products']">Proizvodi</a></li>
+  </ul>
+  </nav>
+  <div class="row" id="rowContent">
+
+   <div class="col-md-4" style="margin-left: 10px;">
+    <mat-nav-list style="border-bottom: 1px groove;  border-style: solid; margin-top:10px; font-size:30px;  text-align: center;">
+      <p>Kategorije</p>
+    </mat-nav-list>
+    <mat-nav-list style="border-style:solid;">
+      <a mat-list-item style="border-bottom:1px groove; "  [routerLink]="['/water']">Voda</a>
+      <a mat-list-item style="border-bottom:1px groove;" [routerLink]="['/beer']">Pivo</a>
+      <a mat-list-item style="border-bottom:1px groove;"  [routerLink]="['/carbonated_juices']">Gazirani sokovi</a>
+    <a mat-list-item style="border-bottom:1px groove;" [routerLink]="['/wine-and-champaign']">Vina,sampanjci</a>
+  <a mat-list-item style="border-bottom:1px groove;" [routerLink]="['/tea']">Caj</a>
+  <a mat-list-item style="border-bottom:1px groove;" [routerLink]="['/energetic-drinks']">Energetska pica</a>
+  <a mat-list-item style="border-bottom:1px groove;" [routerLink]="['/coffee']">Kafa</a>
+</mat-nav-list>
+  </div>
+
+
+  <div class="col" style="flex-wrap: wrap; display:flex;">
+    <div class="container" style="display:flex;">
+      <select [matMenuTriggerFor]="menu1223" style="width:auto; height:auto;">
+      <option selected>Sortiraj po:</option>
+      <mat-menu #menu1223="matMenu">
+        <li mat-menu-item (click)="SortAscName()">Naziv rastuce</li>
+        <li mat-menu-item (click)="SortDescName()">Naziv opadajuce</li>
+        <li mat-menu-item (click)="SortAsc()">Cijena rastuce</li>
+        <li mat-menu-item (click)="SortDesc()">Cijena opadajuce</li>
+      </mat-menu>
+    </select>
+    <button mat-button *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1" style="margin-left:10px; width:auto; background-color: lightsalmon;"
+    (click)="openDialog(1)">
+      <mat-icon>add_icon</mat-icon></button>
+
+  </div>
+
+  <ng-container  *ngFor="let item of products |filter:data |paginate :{itemsPerPage:6,currentPage:p}">
+    <div class="col-md-4"  style="margin-top:30px; margin-bottom:10px;" >
+      <div class="card" style="flex-basis: 33.333333%">
+        <div class="card-body" >
+        <img class="card-img-top" [src]= "item.image_url" style="height:230px;">
+        <p class="card-text">{{item.product_name}}, {{item.liter }} L</p>
+      </div>
+      <div class="card" style="height:32px;">
+        <strong style="font-size:larger" *ngIf="item.on_action == false"> {{item.price }} rsd </strong>
+        <strong style="font-size:larger" *ngIf="item.on_action == true"> {{item.discount_price }} rsd </strong>
+        <div class="card-body" style="display:flex; margin-top:-40px; margin-left:100px; height:40px;">
+         <input class="product-card__qty-input form control" [(ngModel)]="Amount"
+          type="number" style="width:40px; height:30px; margin-left:30px;">
+        <button mat-button style="background-color: lightsalmon; height:30px; width:30px; margin-left:0px;" (click)="AddToCart(item)">
+        <i class="fa fa-shopping-cart"></i>
+        </button>
+      </div>
+    </div>
+      <div class="card" style="height:45px;">
+        <div class="card-body" style="display:flex; margin-top:-12px;">
+          <button mat-button style="background-color:lightseagreen; margin-right:70px;" *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1"
+          (click)="openDialog(2,item.product_id,item.product_name,item.image_url,item.liter,item.price,
+          item.on_action,item.discout,item.discount_price,item.category_id)">
+            <mat-icon>edit icon</mat-icon>
+          </button>
+          <button mat-button style="background-color:lightseagreen" *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1"
+          (click)="openDialog(3,item.product_id,item.product_name,item.image_url,item.liter,item.price,
+          item.on_action,item.discout,item.discount_price,item.category_id)">
+            <mat-icon>delete icon</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+                </div>
+           </ng-container>
+           <div class="container">
+            <div class="row">
+              <div class="col">
+             </div>
+             <div class="col-6">
+           <pagination-controls  (pageChange)="p=$event"></pagination-controls>
+         </div>
+           <div class="col">
+           </div>
+         </div>
+         </div>
+              </div>
+              </div>
+<div class="form-group">
+
+</div>
+
+    <div class="row" id="footer">
+      <div class="col">
+        <p style="float:left; margin-left:100px; margin-top:100px; font-size: larger;">Valentina Vodnika 17</p>
+        <br>
+        <p style="float:left; margin-left:100px; font-size: larger;">21000 Novi Sad</p>
+        <br>
+        <p style="float:left; margin-left:100px; font-size: larger;">Tel:+381 062 839 1 075</p>
+        <button mat-button style="background-color:brown; margin-top:0px; margin-right:150px; ">
+     <mat-icon>facebook</mat-icon>
+      <b>facebook</b>
+        </button>
+        <button mat-button style="background-color:brown; float:right; margin-top:-40px; height:40px;">
+          <p class="fab fa-instagram" style="content:f16d; margin-top:10px;">Instagram</p>
+        </button>
+      </div>
+      <div class="col">
+        <p style="font-size:20px; margin-right:120px; margin-top:100px;">Mapa sajta!</p>
+        <p style="font-size:large; margin-right:150px; margin-top:0px;"><a href="#">Pocetna</a></p>
+        <p style="font-size:large; margin-right:154px; margin-top:0px;"><a href="#">Kontakt</a></p>
+        <p style="font-size:large; margin-right:70px; margin-top:0px;"><a href="#">Online porucivanje</a></p>
+      </div>
+      <div class="col">
+        <input type="email" class="form-control form-control" placeholder="Email..." style="margin-top:120px;">
+<p style="font-size:larger; margin-top:-130px; margin-right:120px;">Newsletter</p>
+
+  <mat-icon style="margin-top:-30px; float:right; margin-right:10px;"><a href="#">send</a></mat-icon>
+  <p style="margin-top:-100px; font-style: italic; ">Ostavite vašu email adresu kako bismo
+     mogli da vas obaveštavamo o novim akcijama i popustima!</p>
+      </div>
+      <div class="col">
+      </div>
+    </div>

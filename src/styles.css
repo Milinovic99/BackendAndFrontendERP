@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+#nav1  {
+  background-color: brown !important;
+}
+#nav2 {
+  background-color: brown !important;
+}
+
+#nav1 ul li a  {
+  color:white;
+}
+
+
+#nav2 ul li a  {
+  color:white;
+}
