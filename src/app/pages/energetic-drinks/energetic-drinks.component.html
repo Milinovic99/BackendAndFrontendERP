@@ -115,6 +115,7 @@
            item.price,item.on_action,item.discout,item.discount_price,item.category_id)">
             <mat-icon>delete icon</mat-icon>
           </button>
+          <button mat-button *ngIf="userService.loggedIn() && userService.userInformation.role_id == 2" style="background-color: coral; margin-top: -5px; margin-left:25px;" (click)="openRatingDialog(item.product_id,userService.userInformation.user_id)">Ocjenite proizvod</button>
         </div>
       </div>
     </div>

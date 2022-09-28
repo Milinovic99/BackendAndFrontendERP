@@ -8,8 +8,8 @@
   <li style="float:right; cursor:pointer;" *ngIf="userService.loggedIn()
    && userService.userInformation.role_id == 1 " [routerLink]="['/notifications']"><a
      style="float:inline-end; display:flex;" >
-  <mat-icon>payment</mat-icon>
-  <p style="font-weight:500">Uplate</p>
+  <mat-icon >payment</mat-icon>
+  <p  style="font-weight:500">Uplate</p>
   </a>
 </li>
     <mat-menu #menu="matMenu">
@@ -57,9 +57,9 @@
   <div class="row" id="rowContent">
    <div class="col">
     </div>
-<div class="col-8">
+<div class="col-8" style="height:350px; overflow:auto;">
   <h1 style="margin-bottom:20px">Pregled izvrsenih uplata</h1>
-  <table class="table" style="height:350px; overflow:auto;" >
+  <table class="table" >
     <thead>
       <tr>
         <th>Id</th>

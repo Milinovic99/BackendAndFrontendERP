@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { StripeService } from 'src/app/services/stripe.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NotificationsComponent implements OnInit {
   data:any=[];
+
 
   constructor(public stripeService:StripeService,
               public userService:UserService,
@@ -29,6 +30,7 @@ export class NotificationsComponent implements OnInit {
     }
 
   }
+
 
   removePayment(item:number) {
     this.stripeService.deletePayment(item);

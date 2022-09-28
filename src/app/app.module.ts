@@ -49,6 +49,7 @@ import { ActionDialogComponent } from './dialogs/action-dialog/action-dialog.com
 import { AllProductsDialogComponent } from './dialogs/all-products-dialog/all-products-dialog.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { RatingDialogComponent } from './dialogs/rating-dialog/rating-dialog.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
     EnergeticDrinkDialogComponent,
     ActionDialogComponent,
     AllProductsDialogComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    RatingDialogComponent
   ],
   imports: [
     BrowserModule,

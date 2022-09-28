@@ -1,9 +1,11 @@
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/overlay-directives';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BeerDialogComponent } from 'src/app/dialogs/beer-dialog/beer-dialog.component';
+import { RatingDialogComponent } from 'src/app/dialogs/rating-dialog/rating-dialog.component';
 import { BeerService} from 'src/app/services/beer.service';
 import { CartService } from 'src/app/services/cart.service';
 import { StripeService } from 'src/app/services/stripe.service';
@@ -53,6 +55,9 @@ export class BeerComponent implements OnInit {
 
   AddToCart(item:any) {
     if(this.userService.loggedIn()) {
+      if(this.userService.userInformation.purchase_count % 3 == 0 && this.totalItemInCart<2) {
+        this.Amount=this.Amount + 1;
+      }
       this.cartService.AddToCart(item);
       this.cartService.ReceiveAmount(this.Amount);
       }
@@ -127,5 +132,14 @@ export class BeerComponent implements OnInit {
         }
       });
     }
+    public openRatingDialog(product_id?:number,user_id?: number) {
+      const dialogRef = this.dialog.open(RatingDialogComponent, {data: {product_id,user_id}});
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result === 1) {
+            this.ngOnInit();
+          }
+        });
+      }
 
 }

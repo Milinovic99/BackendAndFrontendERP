@@ -1,10 +1,7 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Login } from 'src/app/models/login';
-import { User } from 'src/app/models/user';
 import { CartService } from 'src/app/services/cart.service';
 import { UserService } from 'src/app/services/user.service';
-import { LoginComponent } from '../../login/login/login.component';
 
 @Component({
   selector: 'app-user-profiles',

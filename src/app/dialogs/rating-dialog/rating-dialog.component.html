@@ -1,0 +1,35 @@
+<div class="container">
+  <h3 mat-dialog-title >Ocjenjivanje proizvoda</h3>
+  <form class="mat-dialog-content" #formControl="ngForm">
+
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="Ocjena proizvoda" [(ngModel)]="data.grade"
+        name="grade" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+     <mat-form-field>
+      <input matInput placeholder="Komentar" [(ngModel)]="data.comment"
+      name="comment" required>
+      </mat-form-field>
+    </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Id proizvoda" [(ngModel)]="data.product_id"
+       name="product_id" disabled required>
+       </mat-form-field>
+     </div>
+     <div class="form">
+      <mat-form-field>
+       <input matInput placeholder="Id korisnika" [(ngModel)]="data.user_id"
+       name="user_id" disabled="true" required>
+       </mat-form-field>
+     </div>
+
+    <div mat-dialog-actions>
+      <button mat-button  type="submit"  (click)="add()" >Sačuvaj</button>
+      <button mat-button (click)="cancel()">Poništi</button>
+    </div>
+  </form>
+</div>
