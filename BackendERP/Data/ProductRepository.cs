@@ -11,6 +11,7 @@ namespace BackendERP.Data
     {
         private readonly DatabaseContext context;
         private readonly IMapper mapper;
+        
 
         public ProductRepository(DatabaseContext context, IMapper mapper)
         {

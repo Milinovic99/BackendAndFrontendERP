@@ -14,6 +14,6 @@ namespace BackendERP.Tables
         [StringLength(40, MinimumLength = 3)]
         public string Category_name { get; set; }
 
-     //   public List<Product> Products;
+       public List<Product> Products { get; set; }
     }
 }

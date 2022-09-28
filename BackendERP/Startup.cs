@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,6 @@ namespace BackendERP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -61,12 +61,10 @@ namespace BackendERP
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IDeliveryDataRepository, DeliveryDataRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IDeliveryRepository, DeliveryRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IUserServiceRepository, UserServiceRepository>();
-            services.AddScoped<INewsletterRepository, NewsletterRepository>();
 
             services.AddCors();
 
@@ -77,6 +75,9 @@ namespace BackendERP
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+                    
+            StripeConfiguration.ApiKey = "sk_test_51L0AFMH4loDMFXfKDv3npqN1zLu6seF8GzPkQgDjhlEzJhc8nUeq0fMeRhrgGVqKm3yHxHwjNd2eQpf6HtBVqvkc00fZllBGsg";
+         //   app.UseStaticFiles();
             //povezivanje sa frontendom
             app.UseCors(options =>
             options.WithOrigins("http://localhost:4200")
@@ -87,8 +88,8 @@ namespace BackendERP
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackendERP v1"));
+                   app.UseSwagger();
+                   app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackendERP v1"));
             }
 
             app.UseHttpsRedirection();

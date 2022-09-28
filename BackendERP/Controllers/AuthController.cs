@@ -15,12 +15,15 @@ namespace BackendERP.Controllers
     {
         private readonly IAuthHelper authenticationHelper;
         private readonly IUserRepository userRepository;
+        private readonly DatabaseContext context;
 
-        public AuthController(IAuthHelper authenticationHelper,IUserRepository userRepository)
+        public AuthController(IAuthHelper authenticationHelper,IUserRepository userRepository,DatabaseContext context)
         {
             this.authenticationHelper = authenticationHelper;
             this.userRepository = userRepository;
+            this.context = context;
         }
+        
 
         
         [HttpPost("authenticate")]
@@ -29,12 +32,26 @@ namespace BackendERP.Controllers
             //Pokušaj autentifikacije
             if (authenticationHelper.AuthenticatePrincipal(principal))
             {
+                User user = context.Users.FirstOrDefault(u => u.Email == principal.Email && u.Password
+                  == principal.Password);
                 var tokenString = authenticationHelper.GenerateJwt(principal);
-                return Ok(new { token = tokenString });
+
+                Container cont = new()
+                {
+                    user = user,
+                    token = tokenString
+
+                };
+
+                return Ok(cont);
+
+                
             }
 
             //Ukoliko autentifikacija nije uspela vraća se status 401
             return Unauthorized();
         }
+
+        
     }
 }

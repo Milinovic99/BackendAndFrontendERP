@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BackendERP.Tables
 {
-    public class Delivery_data
+    public class Delivery
     {
         [Key]
 
@@ -24,9 +24,9 @@ namespace BackendERP.Tables
         [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Grad mora sadrzati iskljucivo slova!")]
         [StringLength(40, MinimumLength = 5)]
         public string City { get; set; }
-        [ForeignKey("User")]
-        public int User_id { get; set; }
+        [ForeignKey("Order")]
+        public int Order_id { get; set; }
 
-     //   public User User { get; set; }
+        public Order Order { get; set; }
     }
 }

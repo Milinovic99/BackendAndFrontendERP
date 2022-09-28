@@ -13,6 +13,6 @@ namespace BackendERP.Tables
         public int Role_id { get; set; }
         public string Role_name { get; set; }
 
-     //   public List<User> Users;
+       public List<User> Users { get; set;}
     }
 }

@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 namespace BackendERP.Controllers
 {
     [ApiController]
-    [Route("api/korisnik")]
+    [Route("api/placanje")]
     [Produces("application/json")]
-    public class UserController : ControllerBase
+    public class OrderController:ControllerBase
     {
-        private readonly IUserRepository userRepository;
+        private readonly IOrderRepository orderRepository;
         private readonly LinkGenerator linkGenerator; //Služi za generisanje putanje do neke akcije 
         private readonly IMapper mapper;
 
 
-        public UserController(IUserRepository userRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public OrderController(IOrderRepository orderRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
-            this.userRepository = userRepository;
+            this.orderRepository = orderRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
         }
@@ -34,33 +34,33 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
-        public ActionResult<List<User>> GetUsers(string name=null,string lastName= null,string userName=null )
+        public ActionResult<List<Order>> GetOrders()
         {
-           
+            
 
-            var users = userRepository.GetUsers(name,lastName,userName);
-            if (users == null || users.Count == 0)
+            var order = orderRepository.GetOrders();
+            if (order == null || order.Count == 0)
             {
                 return NoContent();
             }
 
-            return Ok(mapper.Map<List<User>>(users));
+            return Ok(mapper.Map<List<Order>>(order));
         }
 
-        [HttpGet("{user_id}")]
+        [HttpGet("{order_id}")]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<User> GetUser(int user_id)
+        public ActionResult<Order> GetOrderById(int order_id)
         {
             
-            var user = userRepository.GetUserById(user_id);
-            if (user == null)
+            var delivery = orderRepository.GetOrderById(order_id);
+            if (delivery == null)
             {
                 return NotFound();
             }
-            return Ok(mapper.Map<User>(user));
+            return Ok(mapper.Map<Order>(delivery));
         }
 
 
@@ -69,16 +69,16 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<User> CreateUser(User user)
+        public ActionResult<Order> CreateOrder([FromQuery] Order payment)
         {
-          
+           
             try
             {
-                var pro = userRepository.CreateUser(user);
-                userRepository.SaveChanges();
+                Order pro = orderRepository.CreateOrder(payment);
+                orderRepository.SaveChanges();
                 // Dobar API treba da vrati lokator gde se taj resurs nalazi
-                //    string location = linkGenerator.GetPathByAction("GetProduct", "Product", new { Product_id = pro.Product_id });
-                return StatusCode(StatusCodes.Status200OK, mapper.Map<User>(pro));
+                // string location = linkGenerator.GetPathByAction("GetDeliveryData", "Delivery_data", new { delivery = pro.Delivery_id });
+                return StatusCode(StatusCodes.Status200OK, pro);
             }
             catch
             {
@@ -86,25 +86,25 @@ namespace BackendERP.Controllers
             }
         }
 
-        [HttpDelete("{User_id}")]
+        [HttpDelete("{order_id}")]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public IActionResult DeleteUser(int user_id)
+        public IActionResult DeleteOrder(int payment_id)
         {
-            
+           
 
             try
             {
-                var productModel = userRepository.GetUserById(user_id);
+                var productModel = orderRepository.GetOrderById(payment_id);
                 if (productModel == null)
                 {
                     return NotFound();
                 }
-                userRepository.DeleteUser(user_id);
-                userRepository.SaveChanges();
+                orderRepository.DeleteOrder(payment_id);
+                orderRepository.SaveChanges();
                 // Status iz familije 2xx koji se koristi kada se ne vraca nikakav objekat, ali naglasava da je sve u redu
 
                 return NoContent();
@@ -121,26 +121,26 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<User> UpdateUser(User user)
+        public ActionResult<Order> UpdateOrder(Order payment)
         {
-        
-            //}
+           
             try
             {
-                var complaintCheck = userRepository.GetUserById(user.User_id);
+                var complaintCheck = orderRepository.GetOrderById(payment.Order_id);
                 //Proveriti da li uopšte postoji prijava koju pokušavamo da ažuriramo.
                 if (complaintCheck == null)
                 {
                     return NotFound();
                 }
-                mapper.Map(user, complaintCheck);
-                userRepository.SaveChanges();
-                return Ok(mapper.Map<User>(complaintCheck));
+                mapper.Map(payment, complaintCheck);
+                orderRepository.SaveChanges();
+                return Ok(mapper.Map<Order>(complaintCheck));
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Update error");
             }
         }
-    }
+    
+}
 }

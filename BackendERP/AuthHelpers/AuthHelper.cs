@@ -1,5 +1,6 @@
 ﻿using BackendERP.Data;
 using BackendERP.Tables;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,6 +18,7 @@ namespace BackendERP.AuthHelpers
     {
         private readonly IConfiguration configuration;
         private readonly IUserRepository userRepository;
+      
         public AuthHelper(IConfiguration configuration, IUserRepository userRepository)
         {
             this.configuration = configuration;
@@ -32,6 +34,8 @@ namespace BackendERP.AuthHelpers
             return false;
         }
 
+
+
         public string GenerateJwt(AuthModel authModel)
         {
 
@@ -42,7 +46,8 @@ namespace BackendERP.AuthHelpers
                                              configuration["Jwt:Issuer"],
                                              null,
                                              expires: DateTime.Now.AddDays(1),
-                                             signingCredentials: credentials);
+                                             signingCredentials: credentials
+                                             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 

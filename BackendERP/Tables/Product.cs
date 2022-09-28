@@ -14,6 +14,7 @@ namespace BackendERP.Tables
         [Required(ErrorMessage = "Naziv proizvoda je neophodno unijeti")]
         public string Product_name { get; set; }
         public double Liter { get; set; }
+        public int Product_quantity { get; set; }
         public double Price { get; set; }
         public bool On_action { get; set; }
         public string Discout { get; set; }
@@ -21,8 +22,11 @@ namespace BackendERP.Tables
         public string Image_url { get; set; }
         [ForeignKey("Product_category")]
         public int Category_id { get; set; }
-    //  public Product_category Product_category { get; set; }
+      public Product_category Product_category { get; set; }
 
-      // public List<Newsletter> Assortments;
+       public List<Product_User> Product_Users { get; set; }
+        public Rating Rating { get; set; }
+        public List<Order> Orders { get; set; }
+        
     }
 }

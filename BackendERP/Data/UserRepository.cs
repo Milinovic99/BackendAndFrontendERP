@@ -3,6 +3,7 @@ using BackendERP.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BackendERP.Data
@@ -67,6 +68,8 @@ namespace BackendERP.Data
             //Ako smo našli korisnika sa tim korisničkim imenom proveravamo lozinku
             if (ValidatePassword(model.Password))
             {
+                User korisnik123 = context.Users.FirstOrDefault(u => u.Password == model.Password);
+                
                 return true;
             }
             return false;

@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace BackendERP.Tables
 {
-    public class Payment
+    public class Order
     {
         [Key]
 
-        public int Payment_id { get; set; }
+        public int Order_id { get; set; }
         public double Total { get; set; }
-        public DateTime Payment_date { get; set; }
+        public DateTime Order_date { get; set; }
         [ForeignKey("User")]
         public int User_id { get; set; }
-     //   public User User { get; set; }
+        public User User { get; set; }
+
+        public List<Product> Products { get; set; }
+
+        public Delivery Delivery { get; set; }
     }
 }
