@@ -65,8 +65,9 @@ namespace BackendERP
             services.AddScoped<IDeliveryRepository, DeliveryRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IRatingRepository, RatingRepository>();
 
-            services.AddCors();
+      services.AddCors();
 
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ERPDatabase")));
 

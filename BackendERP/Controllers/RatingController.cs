@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BackendERP.Data;
 using BackendERP.Tables;
 using Microsoft.AspNetCore.Http;
@@ -69,15 +69,13 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<Rating> CreateRating([FromQuery] Rating rating)
+        public ActionResult<Rating> CreateRating(Rating rating)
         {
 
             try
             {
                 Rating pro = ratingRepository.CreateRating(rating);
                 ratingRepository.SaveChanges();
-                // Dobar API treba da vrati lokator gde se taj resurs nalazi
-                // string location = linkGenerator.GetPathByAction("GetDeliveryData", "Delivery_data", new { delivery = pro.Delivery_id });
                 return StatusCode(StatusCodes.Status200OK, pro);
             }
             catch
