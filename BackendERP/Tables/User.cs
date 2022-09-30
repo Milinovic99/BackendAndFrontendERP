@@ -31,13 +31,7 @@ namespace BackendERP.Tables
         public string Password { get; set; }
         [ForeignKey("Role")]
         public int Role_id { get; set; }
-
         public int Purchase_count { get; set; }
-         public Role Role { get; set; }
 
-        public List<Order> Orders;
-        public List<Rating> Ratings { get; set; }
-
-        
     }
 }

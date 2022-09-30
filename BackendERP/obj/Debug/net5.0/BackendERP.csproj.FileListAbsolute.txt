@@ -65,3 +65,4 @@ C:\Users\TOSHIBA\source\repos\BackendERP\BackendERP\obj\Debug\net5.0\BackendERP.
 C:\Users\TOSHIBA\source\repos\BackendERP\BackendERP\obj\Debug\net5.0\ref\BackendERP.dll
 C:\Users\TOSHIBA\source\repos\BackendERP\BackendERP\obj\Debug\net5.0\BackendERP.pdb
 C:\Users\TOSHIBA\source\repos\BackendERP\BackendERP\obj\Debug\net5.0\BackendERP.genruntimeconfig.cache
+C:\Users\TOSHIBA\source\repos\BackendERP\BackendERP\obj\Debug\net5.0\BackendERP.csproj.AssemblyReference.cache

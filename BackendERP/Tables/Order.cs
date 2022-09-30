@@ -16,9 +16,6 @@ namespace BackendERP.Tables
         public DateTime Order_date { get; set; }
         [ForeignKey("User")]
         public int User_id { get; set; }
-        public User User { get; set; }
-        public List<OrderProduct> Order_products { get; set; }
 
-        public Delivery Delivery { get; set; }
     }
 }

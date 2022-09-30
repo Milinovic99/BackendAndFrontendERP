@@ -22,9 +22,6 @@ namespace BackendERP.Tables
         public string Image_url { get; set; }
         [ForeignKey("Product_category")]
         public int Category_id { get; set; }
-        public Product_category Product_category { get; set; }
-        public List<Rating> Ratings { get; set; }
-        public List<OrderProduct> Order_products { get; set; }
         
     }
 }

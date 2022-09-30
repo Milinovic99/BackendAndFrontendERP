@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +14,5 @@ namespace BackendERP.Tables
         [StringLength(40, MinimumLength = 3)]
         public string Category_name { get; set; }
 
-       public List<Product> Products { get; set; }
     }
 }

@@ -143,18 +143,7 @@ namespace BackendERP.Tables
           User_id = 1
               }
              );
-      modelBuilder.Entity<OrderProduct>()
-            .HasKey(t => new { t.Order_id, t.Product_id });
-
-      modelBuilder.Entity<OrderProduct>()
-          .HasOne(pt => pt.Order)
-          .WithMany(p => p.Order_products)
-          .HasForeignKey(pt => pt.Order_id);
-
-      modelBuilder.Entity<OrderProduct>()
-          .HasOne(pt => pt.Product)
-          .WithMany(t => t.Order_products)
-          .HasForeignKey(pt => pt.Product_id);
+      
 
     }
 

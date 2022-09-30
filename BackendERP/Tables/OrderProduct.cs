@@ -8,10 +8,8 @@ namespace BackendERP.Tables
   public class OrderProduct
   {
     public int Order_id { get; set; }
-    public Order Order { get; set; }
 
     public int Product_id { get; set; }
-    public Product Product { get; set; }
 
     public int BoughtProducts_amount { get; set; }
   }

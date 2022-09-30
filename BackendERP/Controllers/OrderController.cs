@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BackendERP.Data;
 using BackendERP.Tables;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace BackendERP.Controllers
 {
     [ApiController]
-    [Route("api/placanje")]
+    [Route("api/porudzbina")]
     [Produces("application/json")]
     public class OrderController:ControllerBase
     {
