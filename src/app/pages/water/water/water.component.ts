@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { RatingDialogComponent } from 'src/app/dialogs/rating-dialog/rating-dialog.component';
 import { WaterDialogComponent } from 'src/app/dialogs/water-dialog/water-dialog.component';
 import { BeerService } from 'src/app/services/beer.service';
 import { CartService } from 'src/app/services/cart.service';
@@ -53,6 +54,9 @@ export class WaterComponent implements OnInit {
 
   AddToCart(item:any) {
     if(this.userService.loggedIn()) {
+      if(this.userService.userInformation.purchase_count % 3 == 0 && this.totalItemInCart<2) {
+        this.Amount=this.Amount + 1;
+      }
     this.cartService.AddToCart(item);
     this.cartService.ReceiveAmount(this.Amount);
     }
@@ -128,5 +132,14 @@ export class WaterComponent implements OnInit {
       });
     }
 
+    public openRatingDialog(product_id?:number,user_id?: number) {
+      const dialogRef = this.dialog.open(RatingDialogComponent, {data: {product_id,user_id}});
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result === 1) {
+            this.ngOnInit();
+          }
+        });
+      }
 
 }

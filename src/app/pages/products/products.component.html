@@ -78,7 +78,7 @@
         <li mat-menu-item (click)="SortDesc()">Cijena opadajuce</li>
       </mat-menu>
     </select>
-    <button mat-button *ngIf="userService.loggedIn()" style="margin-left:10px; width:auto; background-color: lightsalmon;"
+    <button mat-button *ngIf="userService.loggedIn() &&  userService.userInformation.role_id == 1" style="margin-left:10px; width:auto; background-color: lightsalmon;"
     (click)="openDialog(1)"><mat-icon>add_icon</mat-icon></button>
 
 
@@ -103,16 +103,17 @@
     </div>
     <div class="card" style="height:45px;">
       <div class="card-body" style="display:flex; margin-top:-12px;">
-        <button mat-button style="background-color:lightseagreen; margin-right:70px;" *ngIf="userService.loggedIn()"
+        <button mat-button style="background-color:lightseagreen; margin-right:70px;" *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1"
         (click)="openDialog(2,item.product_id,item.product_name,item.image_url,item.liter,item.price,
         item.on_action,item.discout,item.discount_price,item.category_id)">
           <mat-icon>edit icon</mat-icon>
         </button>
-        <button mat-button style="background-color:lightseagreen" *ngIf="userService.loggedIn()"
+        <button mat-button style="background-color:lightseagreen" *ngIf="userService.loggedIn() && userService.userInformation.role_id == 1"
         (click)="openDialog(3,item.product_id,item.product_name,item.image_url,item.liter,item.price,
         item.on_action,item.discout,item.discount_price,item.category_id)">
           <mat-icon>delete icon</mat-icon>
         </button>
+        <button mat-button *ngIf="userService.loggedIn() && userService.userInformation.role_id == 2" style="background-color: coral; margin-top: -5px; margin-left:25px;" (click)="openRatingDialog(item.product_id,userService.userInformation.user_id)">Ocjenite proizvod</button>
       </div>
     </div>
 

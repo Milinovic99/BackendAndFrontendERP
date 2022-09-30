@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ActionDialogComponent } from 'src/app/dialogs/action-dialog/action-dialog.component';
+import { RatingDialogComponent } from 'src/app/dialogs/rating-dialog/rating-dialog.component';
 import { BeerService } from 'src/app/services/beer.service';
 import { CartService } from 'src/app/services/cart.service';
 import { UserService } from 'src/app/services/user.service';
@@ -53,6 +54,9 @@ this.totalItemInCart=res.length;
 
 AddToCart(item:any) {
   if(this.userService.loggedIn()) {
+    if(this.userService.userInformation.purchase_count % 3 == 0 && this.totalItemInCart<2) {
+      this.Amount=this.Amount + 1;
+    }
     this.cartService.AddToCart(item);
     this.cartService.ReceiveAmount(this.Amount);
     }
@@ -127,4 +131,13 @@ public openDialog(flag: number,product_id?:number,product_name?: string, image_u
       }
     });
   }
+  public openRatingDialog(product_id?:number,user_id?: number) {
+    const dialogRef = this.dialog.open(RatingDialogComponent, {data: {product_id,user_id}});
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 1) {
+          this.ngOnInit();
+        }
+      });
+    }
 }

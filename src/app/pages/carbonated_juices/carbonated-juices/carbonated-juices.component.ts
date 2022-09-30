@@ -5,6 +5,7 @@ import { MatInkBar } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JuiceDialogComponent } from 'src/app/dialogs/juice-dialog/juice-dialog.component';
+import { RatingDialogComponent } from 'src/app/dialogs/rating-dialog/rating-dialog.component';
 import { BeerService } from 'src/app/services/beer.service';
 import { CartService } from 'src/app/services/cart.service';
 import { UserService } from 'src/app/services/user.service';
@@ -52,6 +53,9 @@ export class CarbonatedJuicesComponent implements OnInit {
   }
   AddToCart(item:any) {
     if(this.userService.loggedIn()) {
+      if(this.userService.userInformation.purchase_count % 3 == 0 && this.totalItemInCart<2) {
+        this.Amount=this.Amount + 1;
+      }
       this.cartService.AddToCart(item);
       this.cartService.ReceiveAmount(this.Amount);
       }
@@ -128,4 +132,13 @@ export class CarbonatedJuicesComponent implements OnInit {
         }
       });
     }
+    public openRatingDialog(product_id?:number,user_id?: number) {
+      const dialogRef = this.dialog.open(RatingDialogComponent, {data: {product_id,user_id}});
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result === 1) {
+            this.ngOnInit();
+          }
+        });
+      }
 }

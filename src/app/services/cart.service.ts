@@ -41,7 +41,6 @@ AddToCart(product:any) {
 }
 
 
-
 getTotalPrice() :number {
   let grandTotal=0;
   let i=0;
@@ -54,7 +53,6 @@ getTotalPrice() :number {
       this.PriceList[i]=a.price*this.quantityList[i];
       grandTotal+=a.price*this.quantityList[i++];
     }
-  //  grandTotal+=a.total*this.quantityList[i++];
   })
   return grandTotal;
 }
