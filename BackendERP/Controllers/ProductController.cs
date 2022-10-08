@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BackendERP.Data;
 using BackendERP.Tables;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ namespace BackendERP.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
-        private readonly LinkGenerator linkGenerator; //Služi za generisanje putanje do neke akcije 
+        private readonly LinkGenerator linkGenerator; 
         private readonly IMapper mapper;
       
 
@@ -73,14 +73,11 @@ namespace BackendERP.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
         public ActionResult<Product> CreateProduct(Product proizvod)
-        {
-            
+        {        
             try
-            {
+            {         
                 var pro = productRepository.CreateProduct(proizvod);
                 productRepository.SaveChanges();
-                // Dobar API treba da vrati lokator gde se taj resurs nalazi
-            //    string location = linkGenerator.GetPathByAction("GetProduct", "Product", new { Product_id = pro.Product_id });
                 return StatusCode(StatusCodes.Status200OK, mapper.Map<Product>(pro));
             }
             catch
@@ -88,7 +85,22 @@ namespace BackendERP.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Create Error");
             }
         }
-
+    [HttpPost("provjera_kolicine")]
+    public ActionResult<bool> CheckQuantity(Product product)
+    {
+      try
+      {
+        var checkQuantity = productRepository.CheckQuantity(product);
+        if (checkQuantity == true)
+          return StatusCode(StatusCodes.Status200OK, checkQuantity);
+        else
+          return StatusCode(StatusCodes.Status200OK, checkQuantity);
+      }
+      catch
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError, "Create Error");
+      }
+    }
         [HttpDelete("{product_id}")]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -130,7 +142,7 @@ namespace BackendERP.Controllers
             try
             {
                 var complaintCheck = productRepository.GetProductById(proizvod.Product_id);
-                //Proveriti da li uopšte postoji prijava koju pokušavamo da ažuriramo.
+             
                 if (complaintCheck == null)
                 {
                     return NotFound();

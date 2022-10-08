@@ -1,4 +1,4 @@
-﻿using BackendERP.Data;
+using BackendERP.Data;
 using BackendERP.Tables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +16,13 @@ namespace BackendERP.Controllers
     public class StripeWebHookController : Controller
     {
         const string secret = "whsec_7a91e779df8054368faa39e9fe5b17bf4cd1c298db490c9167bf371c3a8a54c5";
-        private readonly IOrderRepository paymentRepository;
+        private readonly IOrderRepository orderRepository;
         private readonly DatabaseContext context;
 
 
         public StripeWebHookController(DatabaseContext context, IOrderRepository paymentRepository)
         {
-            this.paymentRepository = paymentRepository;
+            this.orderRepository = paymentRepository;
             this.context = context;
         }
 
@@ -46,9 +46,8 @@ namespace BackendERP.Controllers
                     var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
                     Console.WriteLine(session);
 
-
                     // Fulfill the purchase...
-                    paymentRepository.FulfillOrder(session);
+                    orderRepository.FulfillOrder(session);             
                 }
 
                 return Ok();

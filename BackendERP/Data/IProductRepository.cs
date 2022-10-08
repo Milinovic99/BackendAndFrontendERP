@@ -1,4 +1,4 @@
-﻿using BackendERP.Tables;
+using BackendERP.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +14,7 @@ namespace BackendERP.Data
         Product UpdateProduct(Product proizvod);
         void DeleteProduct(int proizvod_id);
         bool SaveChanges();
+        public void ReduceProductsOnInventory(List<Product> products);
+         public bool CheckQuantity(Product product);
     }
 }

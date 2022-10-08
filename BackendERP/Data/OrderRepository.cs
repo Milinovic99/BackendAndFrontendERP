@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BackendERP.Tables;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ namespace BackendERP.Data
     {
         private readonly DatabaseContext context;
         private readonly IMapper mapper;
+        private Order order=new();
 
         public OrderRepository(DatabaseContext context, IMapper mapper)
         {
@@ -56,20 +57,29 @@ namespace BackendERP.Data
         }
 
 
-        public void FulfillOrder(Stripe.Checkout.Session session)
-        {
-            User user = context.Users.FirstOrDefault(u => u.Email == session.CustomerDetails.Email);
-            
-            Order payment = new()
-            {
-                Total = (double)session.AmountTotal,
-                Order_date = DateTime.Now,
-                User_id = user.User_id
-            };
-            context.Add(payment);
-            context.SaveChanges();
+    public void FulfillOrder(Stripe.Checkout.Session session)
+    {
+      User user = context.Users.FirstOrDefault(u => u.Email == session.CustomerDetails.Email);
 
-        }
- 
+       order = new()
+      {
+        Total = (double)session.AmountTotal,
+        Order_date = DateTime.Now,
+        User_id = user.User_id
+      };
+      context.Add(order);
+
+      for(int i=0; i < session.LineItems.Count(); i++)
+      {
+        OrderProduct orderProduct = new()
+        {
+          Order_id= order.Order_id,
+          Product_id= int.Parse(session.LineItems.ElementAt(i).ProductId),
+          BoughtProducts_amount = ((int)session.LineItems.ElementAt(i).Quantity.Value),
+        };
+        context.Add(orderProduct);
+      }
+      context.SaveChanges();
     }
+  }
 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BackendERP.Tables;
 using System;
 using System.Collections.Generic;
@@ -52,5 +52,26 @@ namespace BackendERP.Data
         {
             throw new NotImplementedException();
         }
+    public void ReduceProductsOnInventory(List<Product> products)
+    {
+      for (int i = 0; i < products.Count; i++)
+      {
+        //if there are enough product quantity on inventory, we must reduce number of products in warehouse
+        Product reducedProduct = context.Products.FirstOrDefault(p => p.Product_id == products[i].Product_id);
+        if (reducedProduct != null)
+          reducedProduct.Product_quantity -= products[i].Product_quantity;
+        context.SaveChanges();
+      }
     }
+    public bool CheckQuantity(Product product)
+    {
+      Product foundProduct = context.Products.FirstOrDefault(p => p.Product_name == product.Product_name);
+      if (foundProduct.Product_quantity < product.Product_quantity)
+      {
+        return false;
+      }
+      else
+        return true;
+    }
+  }
 }

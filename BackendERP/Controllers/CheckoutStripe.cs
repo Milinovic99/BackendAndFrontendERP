@@ -1,4 +1,5 @@
-﻿using BackendERP.Tables;
+using BackendERP.Data;
+using BackendERP.Tables;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
@@ -16,10 +17,17 @@ namespace BackendERP.Controllers
     public class CheckoutStripe : Controller
     {
         List<SessionLineItemOptions> LineItems123 = new();
+        private readonly IProductRepository productRepository;
+
+    public CheckoutStripe(IProductRepository productRepository)
+    {
+      this.productRepository = productRepository;
+    }
 
         [HttpPost]
         public ActionResult Create(Tables.Product[] product)
-        {  
+        {
+          List<Tables.Product> productList = new();
            for(int p=0; p<product.Length; p++)
             {
                 LineItems123.Add(
@@ -42,11 +50,11 @@ namespace BackendERP.Controllers
                         
                     }                 
                     );
+        productList.Add(product[p]);      
             }
-     
-    
-
-            var options = new SessionCreateOptions
+      productRepository.ReduceProductsOnInventory(productList);
+      
+      var options = new SessionCreateOptions
             {
                 
                 LineItems = LineItems123,

@@ -143,7 +143,6 @@ namespace BackendERP.Tables
           User_id = 1
               }
              );
-      
 
     }
 
