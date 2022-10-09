@@ -1,5 +1,6 @@
 using AutoMapper;
 using BackendERP.Data;
+using BackendERP.DTO;
 using BackendERP.Tables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -72,11 +73,12 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<Product> CreateProduct(Product proizvod)
+        public ActionResult<Product> CreateProduct(ProductDTO product)
         {        
             try
-            {         
-                var pro = productRepository.CreateProduct(proizvod);
+            {
+                Product mappedProduct = mapper.Map<Product>(product);
+                var pro = productRepository.CreateProduct(mappedProduct);
                 productRepository.SaveChanges();
                 return StatusCode(StatusCodes.Status200OK, mapper.Map<Product>(pro));
             }
@@ -136,18 +138,19 @@ namespace BackendERP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
-        public ActionResult<Product> UpdateProduct(Product proizvod)
+        public ActionResult<Product> UpdateProduct(ProductDTO product)
         {
             
             try
             {
-                var complaintCheck = productRepository.GetProductById(proizvod.Product_id);
+                Product mappedProduct = mapper.Map<Product>(product);
+                var complaintCheck = productRepository.GetProductById(mappedProduct.Product_id);
              
                 if (complaintCheck == null)
                 {
                     return NotFound();
                 }
-                mapper.Map(proizvod, complaintCheck);
+                mapper.Map(mappedProduct, complaintCheck);
                 productRepository.SaveChanges();
                 return Ok(mapper.Map<Product>(complaintCheck));
             }
